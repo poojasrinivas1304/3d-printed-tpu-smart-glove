@@ -1,6 +1,6 @@
 # 3D-printed TPU smart glove
 
-Host-side acquisition and analysis code supporting the manuscript **“Additively manufactured TPU textile sensor glove for wireless multi-channel hand-motion sensing and AI-assisted recognition.”**
+Host-side acquisition, analysis code, and verified de-identified data supporting the manuscript **“Additively manufactured TPU textile sensor glove for wireless multi-channel hand-motion sensing and machine-learning-assisted recognition.”**
 
 ## System overview
 
@@ -30,7 +30,9 @@ The `code/` directory contains scripts for:
 - blind folded-finger and posture prediction; and
 - MATLAB figure generation.
 
-This repository contains the host-side software package. ESP32 firmware and participant-level datasets are not included in this release.
+The `data/` directory contains verified material-characterization data, sequential and cyclic glove measurements, posture-response measurements, and representative folded-finger and posture-classification sessions. Its `README.md`, `data_dictionary.md`, and `exclusions.csv` files describe the release and analysis scope.
+
+The exact ESP32 BLE firmware and Arduino cyclic-compression firmware are not included because verified study versions have not yet been located. The unrelated six-channel serial Arduino sketch found with the working files was deliberately excluded.
 
 ## Installation
 
@@ -66,13 +68,21 @@ python run_posture_blind_demo.py
 python plot_posture_blind_demo.py
 ```
 
+The training scripts automatically use the released `data/classification/` files when they are run from a repository checkout. Set `GLOVE_STEPWISE_DATA_DIR` or `GLOVE_POSTURE_DATA_DIR` to train from another compatible directory.
+
 The acquisition scripts create timestamped CSV files and the training scripts create model, report, feature, and confusion-matrix outputs in or below `code/`. Generated files are excluded by `.gitignore`.
+
+To regenerate the cyclic-compression summaries and plots from the released data:
+
+```bash
+cd data/cyclic_compression
+python ../../code/material_characterization/analyze_cyclic_resistance.py
+```
 
 ## Data availability
 
-Participant-level datasets are not included in this initial code release. Aggregate results are reported in the manuscript and its Supplementary Information.
+This release includes the verified single-session and exploratory datasets described in `data/README.md`. Candidate files for the three-participant validation have not yet been reconciled with the participant-level aggregate table and are therefore not included. Aggregate three-participant results remain reported in the manuscript and Supplementary Information.
 
 ## Citation
 
 Citation metadata are provided in `CITATION.cff`. The manuscript citation will be updated after publication.
-
