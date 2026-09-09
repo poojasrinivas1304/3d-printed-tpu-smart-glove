@@ -1,0 +1,6 @@
+gesture_label,baseline_label,used_last_seconds,Thumb_local_corrected_dR_over_R0,Index_local_corrected_dR_over_R0,Middle_local_corrected_dR_over_R0,Ring_local_corrected_dR_over_R0,Pinky_local_corrected_dR_over_R0,ReverseHorizontal_local_corrected_dR_over_R0,ReverseThumb_local_corrected_dR_over_R0
+Pinky_Bend,Open_1_Baseline,5.0,0.011249,-0.033456,-0.007857,-0.016396,0.159019,0.027389,-0.001481
+Ring_Bend,Open_2,5.0,-0.004960,-0.028384,0.008708,0.237304,-0.026156,-0.056288,-0.014841
+Middle_Bend,Open_3,5.0,0.033235,0.129145,0.005725,0.155729,0.001279,-0.060216,-0.004409
+Index_Bend,Open_4,5.0,0.027914,0.213572,0.002966,0.077460,-0.011275,0.053924,0.036652
+Thumb_Bend,Open_5,5.0,0.397611,-0.098138,-0.008250,-0.035617,-0.003200,0.015200,0.040793
