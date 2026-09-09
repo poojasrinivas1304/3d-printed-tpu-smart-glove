@@ -1,0 +1,6 @@
+target_finger,n_cycles,intended_sensor,intended_mean,intended_sd,Thumb_mean_local_dR_over_R0,Index_mean_local_dR_over_R0,Middle_mean_local_dR_over_R0,Ring_mean_local_dR_over_R0,Pinky_mean_local_dR_over_R0,ReverseHorizontal_mean_local_dR_over_R0,ReverseThumb_mean_local_dR_over_R0,Thumb_sd_local_dR_over_R0,Index_sd_local_dR_over_R0,Middle_sd_local_dR_over_R0,Ring_sd_local_dR_over_R0,Pinky_sd_local_dR_over_R0,ReverseHorizontal_sd_local_dR_over_R0,ReverseThumb_sd_local_dR_over_R0
+Thumb,5,Thumb,-0.392577,1.013925,-0.392577,0.018716,0.015852,-0.010430,0.004084,-0.039219,-0.245248,1.013925,0.040889,0.033756,0.017702,0.004959,0.072998,0.157801
+Index,5,Index,0.189474,0.338240,-0.064048,0.189474,-0.007096,-0.003132,0.000176,-0.013968,-0.003506,0.052114,0.338240,0.045239,0.023400,0.004303,0.057961,0.014500
+Middle,5,Middle,-0.023458,0.056510,-0.010415,-0.018730,-0.023458,0.037910,0.001794,0.012732,-0.007247,0.011172,0.088282,0.056510,0.084981,0.015095,0.049164,0.006732
+Ring,5,Ring,0.098771,0.114637,-0.000786,0.003288,0.037826,0.098771,0.021112,0.006433,-0.007537,0.020147,0.017119,0.008028,0.114637,0.057527,0.149604,0.012663
+Pinky,5,Pinky,0.159241,0.084004,0.015428,0.012891,0.018497,-0.128622,0.159241,0.025158,-0.004324,0.024333,0.018233,0.030810,0.116678,0.084004,0.064849,0.003153
