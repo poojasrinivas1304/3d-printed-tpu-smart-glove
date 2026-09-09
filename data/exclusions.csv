@@ -1,0 +1,2 @@
+dataset,file,analysis_status,reason
+cyclic_finger,glove_cyclic_finger_full_run2_20260523_212325.csv,excluded_from_cycle_level_repeatability_analysis,"Excluded as stated in the manuscript because the acquisition contained a transient high-ADC event consistent with high resistance or loss of contact; retained here as raw data for transparency."
