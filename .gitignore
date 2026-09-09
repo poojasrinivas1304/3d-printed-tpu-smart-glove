@@ -1,0 +1,17 @@
+.DS_Store
+.venv/
+__pycache__/
+*.py[cod]
+*.joblib
+*.log
+
+code/ai_posture_data/
+code/ai_stepwise_data/
+code/posture_tests/
+code/*_samples_*.csv
+code/*_summary_*.csv
+code/*_features.csv
+code/*_report.txt
+code/*_confusion_matrix.png
+code/*_plot.png
+code/*_plot.pdf
