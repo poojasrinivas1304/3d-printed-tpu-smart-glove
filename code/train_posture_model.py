@@ -32,7 +32,19 @@ from sklearn.model_selection import StratifiedKFold, cross_val_predict
 from sklearn.pipeline import Pipeline
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-DATA_DIR = os.path.join(SCRIPT_DIR, "ai_posture_data")
+REPOSITORY_DIR = os.path.dirname(SCRIPT_DIR)
+ACQUISITION_DATA_DIR = os.path.join(SCRIPT_DIR, "ai_posture_data")
+RELEASE_DATA_DIR = os.path.join(
+    REPOSITORY_DIR,
+    "data",
+    "classification",
+    "posture",
+    "session_01",
+)
+DATA_DIR = os.environ.get(
+    "GLOVE_POSTURE_DATA_DIR",
+    RELEASE_DATA_DIR if os.path.isdir(RELEASE_DATA_DIR) else ACQUISITION_DATA_DIR,
+)
 
 POSTURES = ["Open", "Fist", "IndexPoint", "ThumbUp", "Pinch"]
 

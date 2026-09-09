@@ -14,7 +14,19 @@ from sklearn.model_selection import LeaveOneGroupOut, StratifiedKFold, cross_val
 from sklearn.pipeline import Pipeline
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-DATA_DIR = os.path.join(SCRIPT_DIR, "ai_stepwise_data")
+REPOSITORY_DIR = os.path.dirname(SCRIPT_DIR)
+ACQUISITION_DATA_DIR = os.path.join(SCRIPT_DIR, "ai_stepwise_data")
+RELEASE_DATA_DIR = os.path.join(
+    REPOSITORY_DIR,
+    "data",
+    "classification",
+    "folded_finger",
+    "session_01",
+)
+DATA_DIR = os.environ.get(
+    "GLOVE_STEPWISE_DATA_DIR",
+    RELEASE_DATA_DIR if os.path.isdir(RELEASE_DATA_DIR) else ACQUISITION_DATA_DIR,
+)
 OUT_DIR = SCRIPT_DIR
 
 CHANNELS = ["Thumb", "Index", "Middle", "Ring", "Little", "ReverseHorizontal", "ReverseThumb"]
