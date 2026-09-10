@@ -72,6 +72,12 @@ The training scripts automatically use the released `data/classification/` files
 
 The acquisition scripts create timestamped CSV files and the training scripts create model, report, feature, and confusion-matrix outputs in or below `code/`. Generated files are excluded by `.gitignore`.
 
+## Model-evaluation details
+
+- `train_stepwise_finger_model.py` evaluates the 50-trial folded-finger dataset using out-of-fold predictions from stratified five-fold cross-validation.
+- The training scripts place median imputation and the Random Forest classifier in one scikit-learn `Pipeline`. The imputer and classifier are therefore fitted only on the training portion of each fold before predictions are generated for its held-out trials.
+- Both blind-test scripts use the same uncertainty rule: the top-class probability must be at least 0.35 and the probability margin between the two leading classes must be at least 0.08; otherwise, the final decision is `Uncertain`.
+
 To regenerate the cyclic-compression summaries and plots from the released data:
 
 ```bash
