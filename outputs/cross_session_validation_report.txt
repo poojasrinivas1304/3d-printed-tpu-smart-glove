@@ -1,0 +1,37 @@
+Cross-session calibration-file validation
+=========================================
+
+Folded-finger calibration
+-------------------------
+Files:
+  stepwise_train_samples_20260525_204935.csv
+  stepwise_train_samples_20260601_173405.csv
+  stepwise_train_samples_20260601_190719.csv
+Evaluation: leave-one-file-out
+Trials: 150 (30 per class)
+Accuracy: 0.5667 (85/150)
+Confusion matrix rows=true, columns=predicted
+Labels: Thumb, Index, Middle, Ring, Little
+  27  2  1  0  0
+   1 21  4  3  1
+   0  6 17  5  2
+   2  3  3  9 13
+   0  1  5 13 11
+
+Posture calibration
+-------------------
+Files:
+  posture_train_trials_20260526_100125.csv
+  posture_train_trials_20260601_185100.csv
+Evaluation: leave-one-file-out
+Trials: 100 (20 per class)
+Accuracy: 0.6700 (67/100)
+Confusion matrix rows=true, columns=predicted
+Labels: Open, Fist, IndexPoint, ThumbUp, Pinch
+  17  0  0  1  2
+   0 17  2  1  0
+   1  4  9  3  3
+   1  3  7  7  2
+   2  0  1  0 17
+
+Median imputation and the Random Forest were fitted within each training fold. These reports use complete calibration files as groups; no rows from a held-out file were used for imputation or classifier fitting. The corresponding raw participant files are not included in the public release pending source reconciliation and institutional clearance.

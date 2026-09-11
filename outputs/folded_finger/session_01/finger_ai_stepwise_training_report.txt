@@ -1,0 +1,36 @@
+Stepwise finger-folding model
+Evaluation: Stratified 5-fold
+Accuracy: 0.8200
+
+Files:
+  stepwise_train_samples_20260525_204935.csv
+
+Class counts:
+label
+Thumb     10
+Index     10
+Middle    10
+Ring      10
+Little    10
+
+Classification report:
+              precision    recall  f1-score   support
+
+       Thumb       0.91      1.00      0.95        10
+       Index       1.00      0.90      0.95        10
+      Middle       0.75      0.90      0.82        10
+        Ring       0.60      0.60      0.60        10
+      Little       0.88      0.70      0.78        10
+
+    accuracy                           0.82        50
+   macro avg       0.83      0.82      0.82        50
+weighted avg       0.83      0.82      0.82        50
+
+Confusion matrix labels:
+["Thumb", "Index", "Middle", "Ring", "Little"]
+Confusion matrix:
+[[10  0  0  0  0]
+ [ 0  9  1  0  0]
+ [ 0  0  9  1  0]
+ [ 1  0  2  6  1]
+ [ 0  0  0  3  7]]

@@ -10,15 +10,16 @@ This directory contains de-identified data supporting the material-characterizat
 - `posture_response/`: three sequential posture runs and their locally corrected response tables.
 - `classification/folded_finger/session_01/`: the 50-trial calibration dataset and representative 10-trial blind folded-finger evaluation.
 - `classification/posture/session_01/`: the 50-trial posture calibration dataset and two representative 10-trial blind posture evaluations.
+- `classification/archived_session_summary.csv`: de-identified counts for the three complete folded-finger and three complete posture blind files used in the revised multi-session figure.
 - `exclusions.csv`: analysis exclusions and reasons.
 
 The complete cyclic-finger acquisition for run 2 is retained for transparency but was excluded from the cycle-level repeatability analysis for the reason recorded in `exclusions.csv`.
 
 ## Scope
 
-The public classification data in this release support the single-session and exploratory results reported in the main text: 82% five-fold cross-validated folded-finger accuracy, seven correct accepted predictions among seven accepted blind trials, nine correct forced-choice predictions among 10 blind trials, and 10 correct predictions among 14 accepted posture trials across two sessions.
+The public trial-level classification data support the primary within-session and representative blind results reported in the main text: 82% out-of-fold five-fold cross-validated folded-finger accuracy; seven correct accepted predictions among seven accepted blind trials; nine correct forced-choice folded-finger predictions among 10 trials; and seven correct posture decisions among eight accepted trials in the representative posture session.
 
-The three-participant validation files are not included in this release because the candidate local files have not yet been reconciled with the participant-level aggregate table in the manuscript. They should not be added until the exact source sessions are identified and verified.
+The de-identified session-level count table records all six complete archived blind files. Participant-level raw files beyond the representative sessions should not be released until the source-session mapping is fully reconciled and institutional requirements permit public sharing.
 
 ## Reuse
 

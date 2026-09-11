@@ -44,4 +44,12 @@ Channel order is thumb, index, middle, ring, little finger (`Pinky` in some sour
 - `correct` or `is_correct_accepted`: correctness after uncertainty rejection.
 - `is_correct_forced`: correctness when the highest-probability class is used for every trial.
 
+## Divider constants and calibration status
+
+The finger, cyclic-finger, and classification files were generated with a 3.4 kΩ conversion constant. Sequential-posture response files were generated with 3.5 kΩ. Cyclic-compression files used a separate 10-bit Arduino equation with a 7.5 kΩ fixed resistor. These constants reproduce the stored resistance columns; they do not constitute an independent ADC calibration. All manuscript response and classifier features are within-channel normalized ratios.
+
+## Archived session summary
+
+`classification/archived_session_summary.csv` contains one row per complete blind session. `accepted` is the number of trials meeting both uncertainty criteria; `correct_accepted` is the number of accepted predictions equal to the true label; and `forced_correct` counts correct top-probability labels without uncertainty rejection. `blind_summary_id` is the timestamp portion of the source filename.
+
 The public participant/session identifier `session_01` does not encode a participant name.

@@ -27,7 +27,10 @@ DATA_DIR = os.environ.get(
     "GLOVE_STEPWISE_DATA_DIR",
     RELEASE_DATA_DIR if os.path.isdir(RELEASE_DATA_DIR) else ACQUISITION_DATA_DIR,
 )
-OUT_DIR = SCRIPT_DIR
+OUT_DIR = os.environ.get(
+    "GLOVE_OUTPUT_DIR",
+    os.path.join(REPOSITORY_DIR, "outputs", "folded_finger", "session_01"),
+)
 
 CHANNELS = ["Thumb", "Index", "Middle", "Ring", "Little", "ReverseHorizontal", "ReverseThumb"]
 CLASSES = ["Thumb", "Index", "Middle", "Ring", "Little"]
@@ -94,6 +97,7 @@ def make_features(df):
 def main():
     print("Stepwise finger-folding model training")
     print(f"Data dir: {DATA_DIR}")
+    os.makedirs(OUT_DIR, exist_ok=True)
     df, files = load_stepwise_samples()
     print("Using files:")
     for f in files:

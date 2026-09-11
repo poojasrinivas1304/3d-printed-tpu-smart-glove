@@ -28,7 +28,7 @@ import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.impute import SimpleImputer
 from sklearn.metrics import classification_report, confusion_matrix
-from sklearn.model_selection import StratifiedKFold, cross_val_predict
+from sklearn.model_selection import LeaveOneGroupOut, StratifiedKFold, cross_val_predict
 from sklearn.pipeline import Pipeline
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -48,10 +48,14 @@ DATA_DIR = os.environ.get(
 
 POSTURES = ["Open", "Fist", "IndexPoint", "ThumbUp", "Pinch"]
 
-MODEL_FILE = os.path.join(SCRIPT_DIR, "posture_ai_model.joblib")
-REPORT_FILE = os.path.join(SCRIPT_DIR, "posture_ai_training_report.txt")
-CM_FILE = os.path.join(SCRIPT_DIR, "posture_ai_confusion_matrix.png")
-FEATURES_FILE = os.path.join(SCRIPT_DIR, "posture_ai_training_features.csv")
+OUTPUT_DIR = os.environ.get(
+    "GLOVE_OUTPUT_DIR",
+    os.path.join(REPOSITORY_DIR, "outputs", "posture", "session_01"),
+)
+MODEL_FILE = os.path.join(OUTPUT_DIR, "posture_ai_model.joblib")
+REPORT_FILE = os.path.join(OUTPUT_DIR, "posture_ai_training_report.txt")
+CM_FILE = os.path.join(OUTPUT_DIR, "posture_ai_confusion_matrix.png")
+FEATURES_FILE = os.path.join(OUTPUT_DIR, "posture_ai_training_features.csv")
 
 
 def load_trial_data() -> pd.DataFrame:
@@ -105,6 +109,7 @@ def plot_confusion_matrix(cm: np.ndarray, labels: list[str], accuracy: float) ->
 def main() -> None:
     print("Posture model training")
     print("Data dir:", DATA_DIR)
+    os.makedirs(OUTPUT_DIR, exist_ok=True)
     df = load_trial_data()
     if df.empty:
         raise RuntimeError("No accepted trials found.")
@@ -117,6 +122,7 @@ def main() -> None:
     df = df[df["target_label"].isin(POSTURES)].copy()
     X = df[feature_cols]
     y = df["target_label"].astype(str)
+    groups = df["source_file"].astype(str)
 
     print("\nClass counts:")
     print(y.value_counts().reindex(POSTURES).fillna(0).astype(int))
@@ -137,8 +143,14 @@ def main() -> None:
         )),
     ])
 
-    cv = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=42)
-    y_pred = cross_val_predict(clf, X, y, cv=cv)
+    if groups.nunique() >= 2:
+        cv = LeaveOneGroupOut()
+        y_pred = cross_val_predict(clf, X, y, groups=groups, cv=cv)
+        evaluation = "Leave-one-file-out"
+    else:
+        cv = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=42)
+        y_pred = cross_val_predict(clf, X, y, cv=cv)
+        evaluation = f"Stratified {n_splits}-fold"
 
     report = classification_report(y, y_pred, labels=POSTURES, zero_division=0)
     cm = confusion_matrix(y, y_pred, labels=POSTURES)
@@ -159,6 +171,7 @@ def main() -> None:
         "n_trials": int(len(df)),
         "class_counts": y.value_counts().to_dict(),
         "cv_accuracy": accuracy,
+        "evaluation": evaluation,
     }
     joblib.dump(model_payload, MODEL_FILE)
 
@@ -166,9 +179,9 @@ def main() -> None:
     with open(REPORT_FILE, "w") as f:
         f.write("Posture AI model training report\n")
         f.write("================================\n\n")
-        f.write(f"Data directory: {DATA_DIR}\n")
+        f.write(f"Data directory: {os.path.relpath(DATA_DIR, REPOSITORY_DIR)}\n")
         f.write(f"Accepted trials: {len(df)}\n")
-        f.write(f"Cross-validation folds: {n_splits}\n")
+        f.write(f"Evaluation: {evaluation}\n")
         f.write(f"Accuracy: {accuracy:.4f}\n\n")
         f.write("Class counts:\n")
         f.write(str(y.value_counts().reindex(POSTURES).fillna(0).astype(int)))

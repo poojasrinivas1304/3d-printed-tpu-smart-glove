@@ -1,0 +1,37 @@
+Posture AI model training report
+================================
+
+Data directory: data/classification/posture/session_01
+Accepted trials: 50
+Evaluation: Stratified 5-fold
+Accuracy: 0.9200
+
+Class counts:
+target_label
+Open          10
+Fist          10
+IndexPoint    10
+ThumbUp       10
+Pinch         10
+Name: count, dtype: int64
+
+Classification report:
+              precision    recall  f1-score   support
+
+        Open       1.00      0.90      0.95        10
+        Fist       1.00      0.90      0.95        10
+  IndexPoint       1.00      0.90      0.95        10
+     ThumbUp       0.77      1.00      0.87        10
+       Pinch       0.90      0.90      0.90        10
+
+    accuracy                           0.92        50
+   macro avg       0.93      0.92      0.92        50
+weighted avg       0.93      0.92      0.92        50
+
+Confusion matrix rows=true, columns=predicted:
+            Open  Fist  IndexPoint  ThumbUp  Pinch
+Open           9     0           0        0      1
+Fist           0     9           0        1      0
+IndexPoint     0     0           9        1      0
+ThumbUp        0     0           0       10      0
+Pinch          0     0           0        1      9
