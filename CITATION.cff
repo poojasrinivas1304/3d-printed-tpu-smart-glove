@@ -1,12 +1,12 @@
 cff-version: 1.2.0
-message: "If you use this software, please cite the associated manuscript."
-title: "3D-printed TPU smart glove: acquisition and analysis code"
+message: "If you use this software or dataset, please cite the associated manuscript."
+title: "3D-printed TPU smart glove: acquisition, data, and participant-independent analysis"
 type: software
 authors:
   - family-names: Gurram
     given-names: Pooja
   - family-names: Elgendi
     given-names: Mohamed
-version: 0.1.0
-date-released: 2026-09-09
+version: 1.0.0
+date-released: 2026-11-23
 repository-code: "https://github.com/poojasrinivas1304/3d-printed-tpu-smart-glove"

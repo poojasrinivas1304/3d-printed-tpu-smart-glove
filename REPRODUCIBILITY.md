@@ -1,42 +1,54 @@
-# Reproducing the released glove analyses
+# Reproducibility guide
 
-## Environment
+## Analysis input
 
-Python 3.10 or later is recommended. Install the declared dependencies with:
+`data/derived/combined_selected_features.csv` contains one row per accepted trial. It includes 600 rows: 5 participants × 2 tasks × (50 calibration + 10 evaluation trials). Participant names have been replaced with `P01`–`P05`.
 
-    python -m venv .venv
-    source .venv/bin/activate
-    python -m pip install -r requirements.txt
+Each trial has 56 model inputs: eight summary statistics for each of seven sensing channels. Preconditioning samples, rejected attempts, and raw time-series samples are not included in this table.
 
-The original acquisition environment was not frozen. The lower bounds in `requirements.txt` describe the maintained environment, while `requirements-tested.txt` records the exact versions used to verify this release on 11 September 2026; neither file is a claim about the historical acquisition environment.
+## Primary LOSO analysis
 
-## Resistance conversion audit
+Run:
 
-    python code/validate_resistance_conversion.py
+```bash
+python code/analysis/run_loso.py
+```
 
-This checks that the stored resistance columns reproduce the divider equations and constants recorded in the archived files. It does not replace a physical ESP32 ADC calibration.
+The analysis uses a median imputer and a Random Forest classifier with 700 trees, balanced class weights, square-root feature sampling, and random seed 42. Both imputation and classification are fitted separately inside every LOSO training fold.
 
-## Folded-finger model
+Three protocols are reported:
 
-    python code/train_stepwise_finger_model.py
+- `all_trials`: calibration and evaluation trials from four participants are used to predict both session types for the unseen fifth participant. This is the manuscript's primary participant-independent analysis.
+- `calibration_only`: calibration trials from four participants predict calibration trials from the unseen fifth participant.
+- `calibration_to_evaluation`: calibration trials from four participants predict the evaluation session of the unseen fifth participant.
 
-With the released session_01 data, the script constructs one feature vector per complete trial and reproduces the 82% within-session accuracy using out-of-fold predictions from stratified five-fold cross-validation. Median imputation and Random Forest fitting occur inside each training fold.
+Expected primary pooled accuracies in `loso_summary.csv` are approximately:
 
-Outputs are written to outputs/folded_finger/session_01/.
+| Task | Protocol | Accuracy |
+|---|---|---:|
+| Finger | all trials | 78.7% |
+| Posture | all trials | 67.3% |
 
-## Posture model
+Small floating-point differences can occur across library or platform versions; predicted classes should otherwise reproduce.
 
-    python code/train_posture_model.py
+## Sensor ablation
 
-With one calibration file, the script uses stratified five-fold cross-validation. If multiple calibration files are supplied through GLOVE_POSTURE_DATA_DIR, it uses leave-one-file-out validation. Outputs are written to outputs/posture/session_01/.
+Run:
 
-## Cyclic-compression summaries
+```bash
+python code/analysis/run_sensor_ablation.py
+```
 
-    cd data/cyclic_compression
-    python ../../code/material_characterization/analyze_cyclic_resistance.py
+This repeats LOSO using all seven channels (56 features) and the five dorsal finger channels only (40 features). The output is `reproduced_results/sensor_ablation_loso.csv`.
 
-The released cyclic-compression files contain electrical readings and relative time only. They do not contain platen gap, preload, force, or synchronized crosshead position; mechanical stress, strain, and force–displacement curves cannot be reconstructed from this release.
+## Archived outputs
 
-## Acquisition
+`results/tables/` contains the outputs used for manuscript reporting, including fold-level metrics, trial-level predictions, class metrics, and confusion matrices. `results/figures/` contains the final PNG and vector-PDF figures. Reproduction scripts write to a separate directory so these archived files are never overwritten.
 
-Acquisition scripts require the glove hardware and BLE notifications formatted as one device-time value followed by seven raw ADC values. The exact ESP32 study firmware has not been located; see firmware/README.md.
+## Audit trail
+
+- `data/derived/data_audit.csv` documents the 20 selected sessions, accepted-trial counts, hardware-check state, packet gaps, class balance, and source hashes.
+- `data/derived/analysis_manifest.json` records the model configuration and the selected session hashes.
+- Failed, partial, superseded, and duplicate sessions were excluded before the derived table was created.
+
+The raw records represented by the source hashes are retained by the research team and are not part of the public repository.

@@ -1,0 +1,6 @@
+true_label,Open,Fist,IndexPoint,ThumbUp,Pinch
+Open,10,0,0,0,0
+Fist,0,6,1,1,2
+IndexPoint,1,0,7,1,1
+ThumbUp,0,0,2,7,1
+Pinch,2,2,0,1,5

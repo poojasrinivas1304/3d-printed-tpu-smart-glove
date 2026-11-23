@@ -1,0 +1,6 @@
+task,protocol,class,precision,recall,f1-score,support
+finger,calibration_only,Thumb,0.9411764705882352,0.96,0.9504950495049505,50.0
+finger,calibration_only,Index,0.8863636363636364,0.78,0.8297872340425532,50.0
+finger,calibration_only,Middle,0.7454545454545455,0.82,0.780952380952381,50.0
+finger,calibration_only,Ring,0.8,0.72,0.7578947368421053,50.0
+finger,calibration_only,Little,0.7272727272727273,0.8,0.7619047619047619,50.0

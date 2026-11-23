@@ -1,0 +1,6 @@
+task,protocol,class,precision,recall,f1-score,support
+posture,calibration_only,Open,0.847457627118644,1.0,0.9174311926605504,50.0
+posture,calibration_only,Fist,0.7307692307692307,0.38,0.5,50.0
+posture,calibration_only,IndexPoint,0.5245901639344263,0.64,0.5765765765765766,50.0
+posture,calibration_only,ThumbUp,0.5454545454545454,0.48,0.5106382978723404,50.0
+posture,calibration_only,Pinch,0.5333333333333333,0.64,0.5818181818181818,50.0

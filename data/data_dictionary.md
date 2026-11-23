@@ -1,55 +1,24 @@
 # Data dictionary
 
-The files are machine-readable CSV tables. Each row is one recorded sample, trial, cycle, or aggregate result, depending on the file type. Units are included in field names where applicable.
+## `combined_selected_features.csv`
 
-## Common timing and identity fields
+| Field | Meaning |
+|---|---|
+| `participant` | De-identified participant (`P01`–`P05`) |
+| `task` | `finger` or `posture` |
+| `session_type` | `cal` (calibration) or `evaluation` |
+| `source_row` | Row number in the retained source feature table |
+| `trial_id` | Accepted trial sequence number within the session |
+| `attempt_id` | Attempt sequence number, including rejected attempts in the original session |
+| `target` | Ground-truth class |
+| `source_session` | De-identified timestamped acquisition-session identifier |
 
-- `esp32_t_ms`, `arduino_t_ms`: device time in milliseconds.
-- `elapsed_s`, `run_elapsed_s`, `session_elapsed_s`, `phase_elapsed_s`: elapsed time in seconds from the indicated reference point.
-- `run_id`, `trial_id`, `cycle`, `event_index`, `segment_id`: experiment-local identifiers.
-- `label`, `event_label`, `true_label`, `target_label`, `target_finger`, `posture_label`: instructed or recorded movement class.
-- `phase`: open-reference, held-state, bending, or other protocol phase.
+The primary 56 features follow `<sensor>__<statistic>`. Seven sensors each contribute `mean`, `median`, `std`, `min`, `max`, `range`, `last`, and `slope`. The table also retains 25 exploratory dynamic and adjacent-channel features (`peak`, `t_peak`, `onset_slope`, and four adjacent-channel differences); these are not used by the reported v1 LOSO models.
 
-Absolute wall-clock timestamp fields were removed from the public sample tables. Timestamp-like text retained in filenames functions only as a unique session identifier.
+## `data_audit.csv`
 
-## Electrical measurements
+Each row represents one selected session. Audit fields describe completion status, hardware-check result, packet gaps, accepted and rejected trial counts, preconditioning setting, class balance, and SHA-256 hashes of the retained private source files.
 
-- Fields ending in `_raw_ADC`: raw 12-bit ESP32 analog-to-digital converter counts.
-- `adc`: raw Arduino analog-to-digital converter count in cyclic-compression files.
-- `R_ohm`, `R_kOhm`, and channel fields ending in `_R_kOhm`: resistance in ohms or kilohms.
-- Fields containing `dR_over_R0` or `dR_R0`: normalized resistance change, `(R - R0) / R0`.
-- Fields containing `local`: response after subtracting the immediately preceding open-hand reference.
-- `open_bad_adc_total`, `fold_bad_adc_total`, `posture_high_adc_total`, and similar fields: counts of readings meeting the high-ADC quality-control rule.
+## `results/tables/`
 
-## Cyclic-compression files
-
-The three raw files correspond to conductive TPU alone at 2.5 mm and 5 mm/s, backed conductive TPU at 2.5 mm and 5 mm/s, and backed conductive TPU at 5 mm and 10 mm/s. `cyclic_characterization_summary.csv` reports duration, sampling rate, baseline resistance, extrema, peak-to-peak response, mean, and standard deviation.
-
-## Sequential and cyclic glove files
-
-Protocol files contain time-resolved measurements and event labels. Files containing `local` or `cycle_summary` contain locally referenced responses used to construct response matrices and cycle-level summaries. Files containing `summary_run` aggregate the cycle-level values within a run.
-
-Channel order is thumb, index, middle, ring, little finger (`Pinky` in some source fields), reverse horizontal, and reverse thumb. These correspond to GPIO36, GPIO39, GPIO34, GPIO35, GPIO32, GPIO33, and GPIO25.
-
-## Classification files
-
-- Files containing `train_samples`: time-resolved open-reference and held-state calibration samples.
-- Files containing `train_trials`: one record per calibration trial with quality-control counts and trial summaries.
-- Files containing `blind_samples`: time-resolved samples from blind evaluations.
-- Files containing `blind_summary`: one record per blind trial, including the true class, predicted class, probability, uncertainty status, and quality-control fields.
-- Probability fields beginning with `prob_`: Random Forest class probabilities.
-- `confidence`: highest class probability.
-- `margin`: difference between the two highest class probabilities.
-- `status` or `final_prediction`: whether the prediction passed the uncertainty criteria.
-- `correct` or `is_correct_accepted`: correctness after uncertainty rejection.
-- `is_correct_forced`: correctness when the highest-probability class is used for every trial.
-
-## Divider constants and calibration status
-
-The finger, cyclic-finger, and classification files were generated with a 3.4 kΩ conversion constant. Sequential-posture response files were generated with 3.5 kΩ. Cyclic-compression files used a separate 10-bit Arduino equation with a 7.5 kΩ fixed resistor. These constants reproduce the stored resistance columns; they do not constitute an independent ADC calibration. All manuscript response and classifier features are within-channel normalized ratios.
-
-## Archived session summary
-
-`classification/archived_session_summary.csv` contains one row per complete blind session. `accepted` is the number of trials meeting both uncertainty criteria; `correct_accepted` is the number of accepted predictions equal to the true label; and `forced_correct` counts correct top-probability labels without uncertainty rejection. `blind_summary_id` is the timestamp portion of the source filename.
-
-The public participant/session identifier `session_01` does not encode a participant name.
+Prediction tables contain the held-out participant, true and predicted class, confidence, class probabilities, correctness, and de-identified source session. Fold tables report accuracy, balanced accuracy, and macro-F1. Confusion-matrix rows are true classes and columns are predicted classes.
